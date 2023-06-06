@@ -3,47 +3,66 @@ const randomNumber = Math.floor(Math.random() * 20) + 1;
 let score = document.getElementById("score");
 let actualScore = parseInt(score.innerHTML)
 
-let highscore = []
+const highscore = []
+let highestScoreHtml = document.getElementById("highscore");
 
 let difference;
 
 let buttonActivity = document.querySelector("#checkButton").disabled = false
-console.log(buttonActivity)
 console.log(randomNumber);
 let actualNumber = document.getElementsByClassName("actual-number")[0]
 
-let guessNumberInput = document.getElementById("guessNumber");
-console.log( document.getElementsByClassName("actual-number")[0].innerHTML);
 
+let innerofMessage = document.getElementsByClassName("too-low")[0].innerHTML
+var message = document.getElementsByClassName("too-low")[0]
+
+
+const displayCss = function(key,cssValue) {
+      ( key!=="span" && key!==".actual-number") ?
+        document.querySelector(key).style.backgroundColor=cssValue:
+        document.querySelector(key).style.color=cssValue;
+
+}
+
+let guessNumberInput = document.getElementById("guessNumber");
 function controllGame(randomN){
     let guessN = Number(guessNumberInput.value);
 
+
+
     if(guessN >= 1 && guessN <= 20) {
+
+
 
         if(guessN == randomN){
             actualNumber.innerHTML = guessN;
             highscore.push(actualScore)
-            document.getElementById("highscore").innerHTML = highscore[0]
+
+                if(actualScore > localStorage.getItem("highScore") ) {
+                    highestScoreHtml.innerHTML = Number( highestScore());
+                }
+        
 
             //CSS animation
-             document.getElementById("guessNumber").style.backgroundColor="green"
-             document.getElementsByTagName("html")[0].style.backgroundColor="green"
-             document.getElementsByClassName("container")[0].style.backgroundColor="green"
-             document.getElementsByTagName("span")[1].style.color="white"
-             document.getElementsByClassName("actual-number")[0].style.backgroundColor="green"
+
+            displayCss("#guessNumber","green")
+            displayCss("html","green")
+            displayCss(".container","green")
+            displayCss("span","white")
+            displayCss(".actual-number","black")
+          
 
 
-             document.getElementsByTagName("h1")[0].innerHTML="Correct !"
+             document.querySelector("h1").innerHTML="Correct !"
 
 
             buttonActivity = document.querySelector("#checkButton").disabled = true    
         }
         else if(guessN != randomN) {
-            actualScore = actualScore - 1;
+            actualScore--;
             score.innerHTML = actualScore
 
             difference = randomN - guessN;
-            console.log(difference)
             let actualDifference;
 
 
@@ -53,23 +72,16 @@ function controllGame(randomN){
 
             if(difference < 0) {
                 actualDifference = difference*(-1);
-
             }
 
-            console.log(actualDifference)
+               const ifTooLow = (actualDifference>10 && actualDifference<=20);
+               const ifLow = (actualDifference>5 && actualDifference<=10);
 
+               ifTooLow ? message.innerHTML = "Too Low" :
+                ifLow ? message.innerHTML = "Low" : message.innerHTML = "Close"
+            
+            localStorage.setItem("savedText", message.innerHTML);
 
-            if(actualDifference>10 && actualDifference<=20) {
-                document.getElementsByClassName("too-low")[0].innerHTML = "Too Low"
-            }
-
-            if(actualDifference>5 && actualDifference<=10) {
-                document.getElementsByClassName("too-low")[0].innerHTML = "Low"
-            }
-
-            if(actualDifference>0 && actualDifference<=5) {
-                document.getElementsByClassName("too-low")[0].innerHTML = "Close"
-            }
         }
 
     }
@@ -79,10 +91,39 @@ function controllGame(randomN){
 }
 
 
+ function highestScore(){
+    var highest;
+        for(var i = 0; i < highscore.length; i++) {
+            if(highscore.length === 1) {
+                highest = highscore[0]
+            }
+            else if(highscore[i+1] > highestScore[i] ) {
+                highest = highestScore[i+1]
+            } 
+        }
+
+        localStorage.setItem("highScore",highest)
+        console.log(highscore.length)
+    return Number(highest);
+}
+
+
 document.getElementsByClassName("btn-check")[0].addEventListener("click", function(){
     controllGame(randomNumber);
 });
 
+
 document.getElementsByClassName("btn-again")[0].addEventListener("click",function(){
-    location.reload()
+    location.reload()      
 })
+
+
+window.onload = function() {
+    message.innerHTML = "Start Guessing ..."
+
+        highestScoreHtml.innerHTML = localStorage.getItem("highScore")
+
+
+    localStorage.setItem("savedText",message.innerHTML)
+
+     };
