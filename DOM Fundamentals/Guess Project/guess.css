@@ -27,7 +27,7 @@ html {
     position: relative;
     left: 45%;
     transform: translateX(65%);
-    font-size: 24px;
+    font-size:1.5rem;
 }
 
 
@@ -43,9 +43,8 @@ html {
     height: 5px;
     display: flex;
     background-color: white;
-    width: 100%;
+    width: 167%;
     position: absolute;
-    top:46.5%;
     z-index: 4;
 }
 
@@ -142,5 +141,67 @@ html {
     display: inline-flex;
     align-items: center;
 
+}
+
+@media (max-width: 925px) {
+
+    .section-action {
+        display: block;
+        margin-top: 80px;
+    }
+    .result{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 5rem;
+    position: relative;
+    left: 0;
+    }
+
+    .line {
+        display: none;
+    }
+
+    .navbar {
+        height: 300px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .between {
+        font-size: 1.5rem;
+        left: auto;
+        transform: translateX(0);
+        
+    }
+
+    .btn-again {
+        width: 150px;
+        height: 60px;
+        background-color: white;
+        border-color: white;
+        border: 1px;
+        position: relative;
+        left: auto;
+        transform: translateX(0);
+        font-family: 'Press Start 2P', cursive;
+        cursor: pointer;
+    }
+}
+
+@media (max-width: 500px) {
+
+    .between {
+    font-size: 1rem;
+    left: auto;
+    transform: translateX(0);
+ }   
+
+ .header h1 {
+    position: relative;
+    font-size: 1.3rem;
+ }
 }
 
